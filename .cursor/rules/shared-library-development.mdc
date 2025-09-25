@@ -1,0 +1,43 @@
+---
+globs: GrpcShared/**/*.cs,GrpcShared/**/*.proto
+---
+
+# 共享库开发规范
+
+## GrpcShared 项目
+这是一个共享的 Protocol Buffers 定义库，为整个微服务项目提供统一的服务接口定义。
+
+## 项目结构
+- **Protos/**: Protocol Buffers 定义文件目录
+  - [greet.proto](mdc:GrpcShared/Protos/greet.proto) - Greeter 服务定义
+  - [device_status.proto](mdc:GrpcShared/Protos/device_status.proto) - 设备状态服务定义
+
+## 开发规范
+- 所有 `.proto` 文件必须放在 `Protos/` 目录下
+- 使用 `syntax = "proto3"` 语法
+- 设置统一的 `csharp_namespace` 选项
+- 服务定义应清晰描述 RPC 方法
+- 消息类型应包含完整的字段定义和注释
+
+## 版本管理
+- 保持向后兼容性
+- 使用语义化版本控制
+- 重大变更需要更新版本号
+- 所有服务项目必须引用相同版本的共享库
+
+## 代码生成
+- 使用 `GrpcServices="Both"` 同时生成客户端和服务端代码
+- 确保生成的代码在所有目标项目中可用
+- 定期重新生成代码以保持同步
+
+## 文档要求
+- 为每个服务添加详细的注释
+- 为消息字段提供清晰的说明
+- 包含使用示例和最佳实践
+- 维护 API 变更日志
+
+## 依赖管理
+- 最小化外部依赖
+- 使用稳定的包版本
+- 定期更新依赖包
+- 确保与 .NET 10.0 兼容

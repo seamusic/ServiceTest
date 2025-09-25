@@ -2,21 +2,40 @@
 alwaysApply: true
 ---
 
-# gRPC 项目结构指南
+# 微服务测试项目结构指南
 
-这是一个 .NET 10.0 gRPC 服务测试项目，包含以下主要组件：
+这是一个综合的 .NET 10.0 微服务测试项目，包含 gRPC 服务、消息队列和相关的测试客户端。
 
 ## 项目结构
-- **GrpcServiceTest**: gRPC 服务器项目
+- **GrpcServiceTest**: HTTP + gRPC 服务 (ASP.NET Core)
   - [Program.cs](mdc:GrpcServiceTest/Program.cs) - 应用程序入口点，配置 gRPC 服务
-  - [Services/GreeterService.cs](mdc:GrpcServiceTest/Services/GreeterService.cs) - gRPC 服务实现
-  - [Protos/greet.proto](mdc:GrpcServiceTest/Protos/greet.proto) - Protocol Buffers 定义文件
-  - [GrpcServiceTest.csproj](mdc:GrpcServiceTest/GrpcServiceTest.csproj) - 项目配置文件
+  - [Services/GreeterService.cs](mdc:GrpcServiceTest/Services/GreeterService.cs) - Greeter 服务实现
+  - [Services/DeviceStatusService.cs](mdc:GrpcServiceTest/Services/DeviceStatusService.cs) - 设备状态服务实现
+  - 端口: 7237 (HTTPS)
 
-- **GrpcConsoleTest**: 控制台客户端项目
-  - [Program.cs](mdc:GrpcConsoleTest/Program.cs) - 客户端入口点
+- **GrpcPureService**: 纯 gRPC 服务 (Grpc.Core)
+  - [Program.cs](mdc:GrpcPureService/Program.cs) - 纯 gRPC 服务入口点
+  - [Services/GreeterService.cs](mdc:GrpcPureService/Services/GreeterService.cs) - Greeter 服务实现
+  - [Services/DeviceStatusService.cs](mdc:GrpcPureService/Services/DeviceStatusService.cs) - 设备状态服务实现
+  - 端口: 50051
+
+- **GrpcShared**: 共享的 Protocol Buffers 定义
+  - [Protos/greet.proto](mdc:GrpcShared/Protos/greet.proto) - Greeter 服务定义
+  - [Protos/device_status.proto](mdc:GrpcShared/Protos/device_status.proto) - 设备状态服务定义
+
+- **GrpcConsoleTest**: gRPC 客户端测试程序
+  - [Program.cs](mdc:GrpcConsoleTest/Program.cs) - 客户端入口点，支持测试两种 gRPC 服务
+
+- **RocketMQSender**: 消息队列发送者 (RabbitMQ)
+  - [Program.cs](mdc:RocketMQSender/Program.cs) - 消息发送程序
+  - [appsettings.json](mdc:RocketMQSender/appsettings.json) - 消息队列配置
+
+- **RocketMQSubscriber**: 消息队列订阅者 (RabbitMQ)
+  - [Program.cs](mdc:RocketMQSubscriber/Program.cs) - 消息订阅程序
+  - [appsettings.json](mdc:RocketMQSubscriber/appsettings.json) - 消息队列配置
 
 ## 关键文件说明
-- Protocol Buffers 文件定义了服务接口和消息格式
-- 服务实现继承自生成的基类
-- 项目使用 Grpc.AspNetCore 包进行 gRPC 通信
+- Protocol Buffers 文件统一放在 GrpcShared 项目中
+- 支持两种 gRPC 实现：HTTP + gRPC 和纯 gRPC
+- 消息队列使用 RabbitMQ 实现
+- 项目使用 .NET 10.0 和现代 C# 特性
