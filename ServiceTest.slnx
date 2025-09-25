@@ -1,0 +1,8 @@
+<Solution>
+  <Project Path="GrpcShared/GrpcShared.csproj" />
+  <Project Path="GrpcConsoleTest/GrpcConsoleTest.csproj" />
+  <Project Path="GrpcServiceTest/GrpcServiceTest.csproj" />
+  <Project Path="GrpcPureService/GrpcPureService.csproj" />
+  <Project Path="RocketMQSubscriber/RocketMQSubscriber.csproj" />
+  <Project Path="RocketMQSender/RocketMQSender.csproj" />
+</Solution>

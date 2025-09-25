@@ -1,0 +1,26 @@
+---
+globs: *.cs,*.proto
+---
+
+# gRPC 开发规范
+
+## Protocol Buffers 文件
+- 所有 `.proto` 文件应放在 `Protos/` 目录下
+- 使用 `syntax = "proto3"` 语法
+- 设置正确的 `csharp_namespace` 选项
+- 服务定义应清晰描述 RPC 方法
+
+## gRPC 服务实现
+- 服务类应继承自生成的基类（如 `Greeter.GreeterBase`）
+- 使用构造函数注入获取依赖（如 `ILogger<T>`）
+- 所有 RPC 方法应返回 `Task<T>` 或 `Task`
+- 使用 `ServerCallContext` 参数访问请求上下文
+
+## 项目配置
+- 在 `.csproj` 文件中正确配置 Protobuf 引用
+- 使用 `GrpcServices="Server"` 为服务器生成代码
+- 确保引用了正确的 gRPC 包版本
+
+## 日志记录
+- 使用结构化日志记录，包含相关参数
+- 记录请求接收和响应发送的关键信息

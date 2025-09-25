@@ -1,0 +1,82 @@
+syntax = "proto3";
+
+option csharp_namespace = "GrpcShared";
+
+package device.status.v1;
+
+// 设备状态服务定义
+service DeviceStatusService {
+  // 查询设备状态
+  rpc GetDeviceStatus(DeviceRequest) returns (DeviceResponse) {}
+}
+
+// 设备请求消息
+message DeviceRequest {
+  string device_id = 1;       // 设备唯一标识符 (必填)
+  optional bool include_metrics = 2;  // 是否包含性能指标数据 (可选)
+  optional bool verbose = 3;          // 是否返回详细状态信息 (可选)
+}
+
+// 设备响应消息
+message DeviceResponse {
+  // 设备基本信息
+  string device_id = 1;
+  string device_name = 2;
+  DeviceType device_type = 3;
+  
+  // 状态信息
+  DeviceStatus status = 4;
+  int64 last_active_timestamp = 5;  // 最后活动时间 (Unix 时间戳)
+  string firmware_version = 6;
+  
+  // 性能指标 (当请求中 include_metrics=true 时返回)
+  message PerformanceMetrics {
+    double cpu_usage = 1;      // CPU 使用率 (%)
+    double memory_usage = 2;    // 内存使用率 (%)
+    double temperature = 3;     // 设备温度 (°C)
+    double network_throughput = 4; // 网络吞吐量 (Mbps)
+  }
+  
+  optional PerformanceMetrics metrics = 7;  // 可选性能指标
+  
+  // 详细状态 (当请求中 verbose=true 时返回)
+  repeated StatusDetail status_details = 8;
+  
+  // 错误信息 (如果状态为 ERROR)
+  optional ErrorInfo error_info = 9;
+}
+
+// 设备类型枚举
+enum DeviceType {
+  UNKNOWN = 0;
+  SENSOR = 1;
+  GATEWAY = 2;
+  ACTUATOR = 3;
+  CONTROLLER = 4;
+  DISPLAY = 5;
+}
+
+// 设备状态枚举
+enum DeviceStatus {
+  OFFLINE = 0;
+  ONLINE = 1;
+  STANDBY = 2;
+  ACTIVE = 3;
+  MAINTENANCE = 4;
+  ERROR = 5;
+}
+
+// 状态详细信息
+message StatusDetail {
+  string component = 1;   // 组件名称 (如 "sensor", "network")
+  string status_code = 2;  // 状态代码
+  string description = 3;  // 状态描述
+}
+
+// 错误信息
+message ErrorInfo {
+  string error_code = 1;     // 错误代码
+  string error_message = 2;  // 错误描述
+  int64 occurred_at = 3;     // 错误发生时间 (Unix 时间戳)
+  repeated string troubleshooting_tips = 4;  // 故障排除建议
+}

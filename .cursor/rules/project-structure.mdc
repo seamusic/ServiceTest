@@ -1,0 +1,22 @@
+---
+alwaysApply: true
+---
+
+# gRPC 项目结构指南
+
+这是一个 .NET 10.0 gRPC 服务测试项目，包含以下主要组件：
+
+## 项目结构
+- **GrpcServiceTest**: gRPC 服务器项目
+  - [Program.cs](mdc:GrpcServiceTest/Program.cs) - 应用程序入口点，配置 gRPC 服务
+  - [Services/GreeterService.cs](mdc:GrpcServiceTest/Services/GreeterService.cs) - gRPC 服务实现
+  - [Protos/greet.proto](mdc:GrpcServiceTest/Protos/greet.proto) - Protocol Buffers 定义文件
+  - [GrpcServiceTest.csproj](mdc:GrpcServiceTest/GrpcServiceTest.csproj) - 项目配置文件
+
+- **GrpcConsoleTest**: 控制台客户端项目
+  - [Program.cs](mdc:GrpcConsoleTest/Program.cs) - 客户端入口点
+
+## 关键文件说明
+- Protocol Buffers 文件定义了服务接口和消息格式
+- 服务实现继承自生成的基类
+- 项目使用 Grpc.AspNetCore 包进行 gRPC 通信
