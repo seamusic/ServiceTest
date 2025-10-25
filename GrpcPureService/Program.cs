@@ -25,14 +25,14 @@ namespace GrpcPureService
                     // 注册 DeviceStatus 服务
                     GrpcShared.DeviceStatusService.BindService(new Services.DeviceStatusService(loggerFactory.CreateLogger<Services.DeviceStatusService>()))
                 },
-                Ports = { new ServerPort("localhost", 50051, ServerCredentials.Insecure) }
+                Ports = { new ServerPort("0.0.0.0", 50051, ServerCredentials.Insecure) }
             };
 
             try
             {
                 // 启动服务器
                 server.Start();
-                logger.LogInformation("gRPC 服务器已启动，监听端口: 50051");
+                logger.LogInformation("gRPC 服务器已启动，监听地址: 0.0.0.0:50051");
                 logger.LogInformation("按 Ctrl+C 停止服务器");
 
                 // 等待服务器关闭

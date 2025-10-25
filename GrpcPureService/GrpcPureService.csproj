@@ -1,10 +1,21 @@
-<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk;Microsoft.NET.Sdk.Publish">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <!-- 静态链接配置 -->
+    <PublishSingleFile>true</PublishSingleFile>
+    <SelfContained>true</SelfContained>
+    <RuntimeIdentifier>linux-arm64</RuntimeIdentifier>
+    <PublishTrimmed>true</PublishTrimmed>
+    <!-- 静态链接系统库 -->
+    <PublishAot>false</PublishAot>
+    <UseAppHost>true</UseAppHost>
+    <!-- 使用更兼容的glibc版本 -->
+    <PublishReadyToRun>false</PublishReadyToRun>
+    <PublishReadyToRunComposite>false</PublishReadyToRunComposite>
   </PropertyGroup>
 
   <ItemGroup>
